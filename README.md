@@ -80,3 +80,9 @@ This project focuses on building a **price recommendation system**, not a perfec
 
 ## 🚀 Status
 Project setup and experiment design in progress.
+
+
+## Data
+Place raw Inside Airbnb files in `data/raw/`.
+
+Raw data files are excluded from Git tracking through `.gitignore`, so they will not appear in the GitHub repository.
