@@ -69,7 +69,11 @@ This project focuses on building a **price recommendation system**, not a perfec
 ---
 
 ## 👥 Team
+- Kristal Abel
+- Emily Dietz
 - Thomas McClanahan
+- Paulius Sateika
+- Wanyao Li
 - [Add teammates here]
 
 ---
