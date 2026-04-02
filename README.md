@@ -86,3 +86,14 @@ Project setup and experiment design in progress.
 Place raw Inside Airbnb files in `data/raw/`.
 
 Raw data files are excluded from Git tracking through `.gitignore`, so they will not appear in the GitHub repository.
+
+
+
+## Data File Naming Convention
+
+All team members should use the same filenames for consistency:
+
+- listings.csv.gz
+- calendar.csv.gz
+
+These files should be placed in `data/raw/`.
