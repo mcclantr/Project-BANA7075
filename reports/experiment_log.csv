@@ -1,1 +1,2 @@
+run_name,date,author,dataset_version,features,preprocessing,model,hyperparameters,rmse,mae,r^2,notes
 baseline_lr_01,4/5/2026,Thomas,v1,accommodates+bedrooms+beds+minimum_nights+number_of_reviews+review_scores_rating,price cleaned + dropna,LinearRegression,default,2274.745528,317.524388,0.006621608,Very weak baseline; likely affected by outliers
