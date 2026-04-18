@@ -108,3 +108,5 @@ All team members should use the same filenames for consistency:
 - Random Forest (best performing)
 
 These files should be placed in `data/raw/`.
+
+Added prediction function for model inference
