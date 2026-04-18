@@ -6,9 +6,7 @@ import os
 
 @st.cache_resource
 def load_model():
-    # Get the directory where app.py lives
     base_dir = os.path.dirname(os.path.abspath(__file__))
-    
     with open(os.path.join(base_dir, "rf_model_improved.pkl"), "rb") as f:
         model = pickle.load(f)
     with open(os.path.join(base_dir, "model_columns.pkl"), "rb") as f:
@@ -48,35 +46,43 @@ if st.button("💰 Predict Price", use_container_width=True):
 
     review_density = number_of_reviews / (minimum_nights + 1)
 
-    input_data = pd.DataFrame(columns=columns)
-    input_data.loc[0] = 0
+    def build_input(price_per_person_val):
+        input_data = pd.DataFrame(columns=columns)
+        input_data.loc[0] = 0
+        input_data["accommodates"]          = accommodates
+        input_data["bathrooms"]             = bathrooms
+        input_data["bedrooms"]              = bedrooms
+        input_data["beds"]                  = beds
+        input_data["minimum_nights"]        = minimum_nights
+        input_data["number_of_reviews"]     = number_of_reviews
+        input_data["review_scores_rating"]  = review_scores_rating
+        input_data["host_is_superhost"]     = int(host_is_superhost)
+        input_data["instant_bookable"]      = int(instant_bookable)
+        input_data["review_density"]        = review_density
+        input_data["price_per_person"]      = price_per_person_val
 
-    input_data["accommodates"]          = accommodates
-    input_data["bathrooms"]             = bathrooms
-    input_data["bedrooms"]              = bedrooms
-    input_data["beds"]                  = beds
-    input_data["minimum_nights"]        = minimum_nights
-    input_data["number_of_reviews"]     = number_of_reviews
-    input_data["review_scores_rating"]  = review_scores_rating
-    input_data["host_is_superhost"]     = int(host_is_superhost)
-    input_data["instant_bookable"]      = int(instant_bookable)
-    input_data["review_density"]        = review_density
+        if room_type != "Entire home/apt":
+            col_name = f"room_type_{room_type}"
+            if col_name in columns:
+                input_data[col_name] = 1
 
-    if room_type != "Entire home/apt":
-        col_name = f"room_type_{room_type}"
+        col_name = f"neighbourhood_cleansed_{neighbourhood}"
         if col_name in columns:
             input_data[col_name] = 1
 
-    col_name = f"neighbourhood_cleansed_{neighbourhood}"
-    if col_name in columns:
-        input_data[col_name] = 1
+        return input_data
 
-    log_pred = model.predict(input_data)[0]
-    predicted_price = np.expm1(log_pred)
+    # Pass 1 - placeholder
+    input_data = build_input(100 / accommodates)
+    predicted_price = np.expm1(model.predict(input_data)[0])
 
-    input_data["price_per_person"] = predicted_price / accommodates
-    log_pred = model.predict(input_data)[0]
-    predicted_price = np.expm1(log_pred)
+    # Pass 2 - use predicted price
+    input_data = build_input(predicted_price / accommodates)
+    predicted_price = np.expm1(model.predict(input_data)[0])
+
+    # Pass 3 - stabilize
+    input_data = build_input(predicted_price / accommodates)
+    predicted_price = np.expm1(model.predict(input_data)[0])
 
     st.success(f"### 💵 Recommended Nightly Price: ${predicted_price:.2f}")
 
