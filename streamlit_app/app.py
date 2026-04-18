@@ -2,14 +2,18 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import pickle
+import os
 
 @st.cache_resource
 def load_model():
-    with open("rf_model_improved.pkl", "rb") as f:
+    # Get the directory where app.py lives
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    
+    with open(os.path.join(base_dir, "rf_model_improved.pkl"), "rb") as f:
         model = pickle.load(f)
-    with open("model_columns.pkl", "rb") as f:
+    with open(os.path.join(base_dir, "model_columns.pkl"), "rb") as f:
         columns = pickle.load(f)
-    with open("dropdown_values.pkl", "rb") as f:
+    with open(os.path.join(base_dir, "dropdown_values.pkl"), "rb") as f:
         dropdowns = pickle.load(f)
     return model, columns, dropdowns
 
