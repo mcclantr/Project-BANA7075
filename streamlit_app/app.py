@@ -59,7 +59,6 @@ if st.button("💰 Predict Price", use_container_width=True):
     input_data["host_is_superhost"]     = int(host_is_superhost)
     input_data["instant_bookable"]      = int(instant_bookable)
     input_data["review_density"]        = review_density
-    input_data["price_per_person"]      = 26.50
 
     if room_type != "Entire home/apt":
         col_name = f"room_type_{room_type}"
@@ -84,7 +83,7 @@ if st.button("💰 Predict Price", use_container_width=True):
         st.metric("Columbus Avg (Private Room)", "~$75")
 
     st.markdown("---")
-    st.caption("Prediction based on Columbus Airbnb listings data. Model: Random Forest (R² = 0.9945)")
+    st.caption("Prediction based on Columbus Airbnb listings data. Model: Random Forest (R² = 0.7547)")
 
 st.sidebar.title("ℹ️ About")
 st.sidebar.markdown("""
@@ -92,9 +91,9 @@ This tool predicts Airbnb nightly prices for Columbus, Ohio listings using a
 Random Forest model trained on real Airbnb data.
 
 **Model Performance:**
-- R² Score: 0.9945
-- RMSE: 0.04 (log scale)
-- MAE: 0.01 (log scale)
+- R² Score: 0.7547
+- RMSE: 0.2864 (log scale)
+- MAE: 0.2205 (log scale)
 
 **Built by:** BANA 7075 Group Project
 **Data:** Columbus, OH Airbnb Listings
