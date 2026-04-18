@@ -96,4 +96,15 @@ All team members should use the same filenames for consistency:
 - listings.csv.gz
 - calendar.csv.gz
 
+- ## How to Run the Project
+
+1. Open the notebooks in Google Colab
+2. Upload the dataset (listings.csv.gz)
+3. Run all cells in order
+4. View model outputs and predictions
+
+## Models Implemented
+- Linear Regression
+- Random Forest (best performing)
+
 These files should be placed in `data/raw/`.
