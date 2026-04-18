@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Virtual environments
+.venv/
+env/
+
+# Data (DO NOT push large data files)
+data/raw/
+data/interim/
+data/processed/
+
+# Models
+models/*.pkl
+models/*.joblib
+
+# OS / editor junk
+.DS_Store
+Thumbs.db
+.vscode/
