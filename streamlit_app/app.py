@@ -6,9 +6,7 @@ import os
 
 @st.cache_resource
 def load_model():
-    # Get the directory where app.py lives
     base_dir = os.path.dirname(os.path.abspath(__file__))
-    
     with open(os.path.join(base_dir, "rf_model_improved.pkl"), "rb") as f:
         model = pickle.load(f)
     with open(os.path.join(base_dir, "model_columns.pkl"), "rb") as f:
@@ -23,9 +21,9 @@ st.title("🏠 Columbus Airbnb Price Predictor")
 st.markdown("Enter your listing details below to get a recommended nightly price based on Columbus Airbnb market data.")
 st.markdown("---")
 
-col1, col2 = st.columns(2)
+left_col, right_col = st.columns(2)
 
-with col1:
+with left_col:
     st.subheader("📋 Listing Details")
     accommodates  = st.slider("Number of Guests", 1, 16, 2)
     bedrooms      = st.slider("Bedrooms", 0, 10, 1)
@@ -34,7 +32,7 @@ with col1:
     room_type     = st.selectbox("Room Type", ["Entire home/apt"] + dropdowns["room_types"])
     neighbourhood = st.selectbox("Neighbourhood", dropdowns["neighbourhoods"])
 
-with col2:
+with right_col:
     st.subheader("📊 Listing Performance")
     minimum_nights       = st.slider("Minimum Nights", 1, 30, 2)
     number_of_reviews    = st.slider("Number of Reviews", 0, 500, 50)
@@ -63,34 +61,29 @@ if st.button("💰 Predict Price", use_container_width=True):
     input_data["review_density"]        = review_density
 
     if room_type != "Entire home/apt":
-        col_name = f"room_type_{room_type}"
-        if col_name in columns:
-            input_data[col_name] = 1
+        room_col = f"room_type_{room_type}"
+        if room_col in columns:
+            input_data[room_col] = 1
 
-    col_name = f"neighbourhood_cleansed_{neighbourhood}"
-    if col_name in columns:
-        input_data[col_name] = 1
+    hood_col = f"neighbourhood_cleansed_{neighbourhood}"
+    if hood_col in columns:
+        input_data[hood_col] = 1
 
-    log_pred = model.predict(input_data)[0]
-    predicted_price = np.expm1(log_pred)
-
-    input_data["price_per_person"] = predicted_price / accommodates
-    log_pred = model.predict(input_data)[0]
-    predicted_price = np.expm1(log_pred)
+    predicted_price = np.expm1(model.predict(input_data)[0])
 
     st.success(f"### 💵 Recommended Nightly Price: ${predicted_price:.2f}")
 
     st.markdown("#### How does this compare to the Columbus market?")
-    col3, col4, col5 = st.columns(3)
-    with col3:
+    metric_col1, metric_col2, metric_col3 = st.columns(3)
+    with metric_col1:
         st.metric("Your Predicted Price", f"${predicted_price:.2f}")
-    with col4:
+    with metric_col2:
         st.metric("Columbus Avg (Entire Home)", "~$150")
-    with col5:
+    with metric_col3:
         st.metric("Columbus Avg (Private Room)", "~$75")
 
     st.markdown("---")
-    st.caption("Prediction based on Columbus Airbnb listings data. Model: Random Forest (R² = 0.9945)")
+    st.caption("Prediction based on Columbus Airbnb listings data. Model: Random Forest (R² = 0.7547)")
 
 st.sidebar.title("ℹ️ About")
 st.sidebar.markdown("""
@@ -98,9 +91,9 @@ This tool predicts Airbnb nightly prices for Columbus, Ohio listings using a
 Random Forest model trained on real Airbnb data.
 
 **Model Performance:**
-- R² Score: 0.9945
-- RMSE: 0.04 (log scale)
-- MAE: 0.01 (log scale)
+- R² Score: 0.7547
+- RMSE: 0.2864 (log scale)
+- MAE: 0.2205 (log scale)
 
 **Built by:** BANA 7075 Group Project
 **Data:** Columbus, OH Airbnb Listings
