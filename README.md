@@ -2,7 +2,9 @@
 
 ## 📌 Project Overview
 This project develops an end-to-end machine learning system to predict and recommend optimal nightly prices for Airbnb listings in Columbus, Ohio.
+
 The system leverages listing attributes and market data to generate data-driven pricing recommendations for hosts and property managers. 
+
 In addition to model development, the project emphasizes reproducibility, scalability, and deployment by integrating version control, structured workflows, and a user-facing application.
 
 ---
