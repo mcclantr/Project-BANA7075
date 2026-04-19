@@ -112,3 +112,7 @@ All team members should use the same filenames for consistency:
 These files should be placed in `data/raw/`.
 
 Added prediction function for model inference
+
+###Contributions
+- Contributed to issue discussion
+- Reviewed pull requests 
